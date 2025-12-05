@@ -1,6 +1,15 @@
-Comandos básicos git
+--Comandos básicos git
 git status
 git add .
 git commit -m "Descrição da alteração"
 git push
 git push -u origin main
+
+--Instalação do prisma
+npm init -y
+npm install --save-dev prisma@5.20.0
+npm install @prisma/client@5.20.0
+npx prisma init
+npm run prisma:migrate
+# Nome da migration: init_cadastro_patrimonio
+npm run prisma:studio

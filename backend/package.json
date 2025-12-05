@@ -13,13 +13,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^5.0.0",
+    "@prisma/client": "^5.20.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.19.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.0",
-    "prisma": "^5.0.0"
+    "prisma": "^5.20.0"
   }
 }
