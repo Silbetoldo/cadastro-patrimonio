@@ -18,8 +18,12 @@ app.get("/", (req, res) => {
 });
 
 /**
- * SETORES
+ * =========================
+ *       SETORES
+ * =========================
  */
+
+// Listar todos os setores
 app.get("/sectors", async (req, res) => {
   try {
     const sectors = await prisma.sector.findMany({
@@ -32,6 +36,28 @@ app.get("/sectors", async (req, res) => {
   }
 });
 
+// Buscar setor por ID
+app.get("/sectors/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+
+    const sector = await prisma.sector.findUnique({
+      where: { id },
+      include: { assets: true }
+    });
+
+    if (!sector) {
+      return res.status(404).json({ error: "Sector not found." });
+    }
+
+    res.json(sector);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error fetching sector." });
+  }
+});
+
+// Criar setor
 app.post("/sectors", async (req, res) => {
   try {
     const { name } = req.body;
@@ -51,6 +77,7 @@ app.post("/sectors", async (req, res) => {
   }
 });
 
+// Atualizar setor
 app.put("/sectors/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id, 10);
@@ -77,6 +104,7 @@ app.put("/sectors/:id", async (req, res) => {
   }
 });
 
+// Deletar setor (não pode ter patrimônio vinculado)
 app.delete("/sectors/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id, 10);
@@ -106,8 +134,12 @@ app.delete("/sectors/:id", async (req, res) => {
 });
 
 /**
- * PATRIMÔNIOS
+ * =========================
+ *      PATRIMÔNIOS
+ * =========================
  */
+
+// Listar todos os patrimônios
 app.get("/assets", async (req, res) => {
   try {
     const assets = await prisma.asset.findMany({
@@ -132,6 +164,36 @@ app.get("/assets", async (req, res) => {
   }
 });
 
+// Buscar patrimônio por ID
+app.get("/assets/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+
+    const asset = await prisma.asset.findUnique({
+      where: { id },
+      include: { sector: true }
+    });
+
+    if (!asset) {
+      return res.status(404).json({ error: "Asset not found." });
+    }
+
+    res.json({
+      id: asset.id,
+      name: asset.name,
+      assetNumber: asset.assetNumber,
+      sectorId: asset.sectorId,
+      sectorName: asset.sector?.name ?? null,
+      createdAt: asset.createdAt,
+      updatedAt: asset.updatedAt
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error fetching asset." });
+  }
+});
+
+// Criar patrimônio
 app.post("/assets", async (req, res) => {
   try {
     const { name, assetNumber, sectorId } = req.body;
@@ -179,6 +241,7 @@ app.post("/assets", async (req, res) => {
   }
 });
 
+// Atualizar patrimônio
 app.put("/assets/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id, 10);
@@ -233,6 +296,7 @@ app.put("/assets/:id", async (req, res) => {
   }
 });
 
+// Deletar patrimônio
 app.delete("/assets/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id, 10);
