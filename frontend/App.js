@@ -1,14 +1,25 @@
-import "./global.css"; // importa o tailwind pro web
-
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView, Platform } from "react-native";
 import React from "react";
-import { SafeAreaView, StatusBar } from "react-native";
+
+// Importa tailwind do web (não afeta mobile)
+if (Platform.OS === "web") {
+  require("./global.css");
+}
+
+// Screen principal
 import SectorManagementScreen from "./src/screens/SectorManagementScreen";
+import AssetsPage from "./src/pages/Assets/Assets";
 
 export default function App() {
   return (
     <SafeAreaView className="flex-1 bg-slate-100">
-      <StatusBar barStyle="dark-content" />
-      <SectorManagementScreen />
+      {/* StatusBar universal */}
+      <StatusBar style="dark" />
+
+      {/* Conteúdo da aplicação */}
+   
+      <AssetsPage />
     </SafeAreaView>
   );
 }
