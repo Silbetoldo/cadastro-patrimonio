@@ -18,7 +18,7 @@ npm run dev
 http://localhost:3001/
 
 --Instalação do NativeWind e Tailwind
-npm install nativewind
+npm install nativewind tailwindcss postcss autoprefixer
 npm install --save-dev tailwindcss
 npx tailwindcss init
 
@@ -26,3 +26,7 @@ npx tailwindcss init
 npm start
 npm start -- --clear
 npm cache clean --force
+
+
+npm install babel-preset-expo --save-dev
+npx expo start -c

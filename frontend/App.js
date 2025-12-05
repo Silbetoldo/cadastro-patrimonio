@@ -1,20 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import "./global.css"; // importa o tailwind pro web
+
+import React from "react";
+import { SafeAreaView, StatusBar } from "react-native";
+import SectorManagementScreen from "./src/screens/SectorManagementScreen";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Silvana!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView className="flex-1 bg-slate-100">
+      <StatusBar barStyle="dark-content" />
+      <SectorManagementScreen />
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

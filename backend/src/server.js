@@ -8,6 +8,7 @@ const app = express();
 const prisma = new PrismaClient();
 
 const PORT = process.env.PORT || 3001;
+const LOCALHOST_ANDROID = "http://192.168.8.13:3001";
 
 app.use(cors());
 app.use(express.json());
