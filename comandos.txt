@@ -13,3 +13,6 @@ npx prisma init
 npm run prisma:migrate
 # Nome da migration: init_cadastro_patrimonio
 npm run prisma:studio
+
+npm run dev
+http://localhost:3001/
