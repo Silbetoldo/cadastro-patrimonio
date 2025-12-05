@@ -1,0 +1,6 @@
+Comandos básicos git
+git status
+git add .
+git commit -m "Descrição da alteração"
+git push
+git push -u origin main
