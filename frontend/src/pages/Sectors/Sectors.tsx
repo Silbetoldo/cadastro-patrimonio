@@ -1,8 +1,11 @@
 import React from "react";
 import { useSectorsLogic } from "./Sectors.logic";
 import { sectorsStyles as s } from "./Sectors.styles";
+import { useNavigation } from "@react-navigation/native";
 
 const SectorsPage: React.FC = () => {
+  const navigation = useNavigation<any>();
+
   const {
     sectors,
     name,
@@ -23,12 +26,21 @@ const SectorsPage: React.FC = () => {
         <h1 className={s.title}>Cadastro de Setores</h1>
 
         <nav className={s.nav}>
-          <a href="/assets" className={s.navLink}>
+          <button
+            type="button"
+            className={s.navLink}
+            onClick={() => navigation.navigate("Assets")}
+          >
             Tela de Patrimônio
-          </a>
-          <a href="/" className={s.navLink}>
+          </button>
+
+          <button
+            type="button"
+            className={s.navLink}
+            onClick={() => navigation.navigate("Sectors")}
+          >
             Início
-          </a>
+          </button>
         </nav>
       </header>
 

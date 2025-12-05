@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 export interface Sector {
   id: number;
@@ -14,6 +15,9 @@ export function useSectorsLogic() {
   const [message, setMessage] = useState<string | null>(null);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  // navegação para a tela de Patrimônios
+  const navigation = useNavigation<any>();
 
   const loadSectors = async () => {
     try {
@@ -73,7 +77,9 @@ export function useSectorsLogic() {
       }
 
       showMessage(
-        editingId ? "Setor atualizado com sucesso!" : "Setor criado com sucesso!",
+        editingId
+          ? "Setor atualizado com sucesso!"
+          : "Setor criado com sucesso!",
         false
       );
 
@@ -126,6 +132,11 @@ export function useSectorsLogic() {
     clearMessage();
   };
 
+  // 👉 nova função para navegar para Patrimônios
+  const handleGoToAssets = () => {
+    navigation.navigate("Assets");
+  };
+
   return {
     sectors,
     name,
@@ -137,6 +148,7 @@ export function useSectorsLogic() {
     handleSubmit,
     handleEditClick,
     handleDeleteClick,
-    handleClear
+    handleClear,
+    handleGoToAssets // <- exporta para a tela usar
   };
 }
