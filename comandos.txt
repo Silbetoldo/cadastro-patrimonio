@@ -25,3 +25,4 @@ npx tailwindcss init
 
 npm start
 npm start -- --clear
+npm cache clean --force
