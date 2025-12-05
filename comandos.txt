@@ -16,3 +16,8 @@ npm run prisma:studio
 
 npm run dev
 http://localhost:3001/
+
+--Instalação do NativeWind e Tailwind
+npm install nativewind
+npm install --save-dev tailwindcss
+npx tailwindcss init
