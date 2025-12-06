@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 
 if (Platform.OS === "web") {
-  require("./global.css"); // Tailwind para web
+  require("./global.css"); 
 }
 
 // Importa suas telas
@@ -20,17 +20,18 @@ export default function App() {
       <StatusBar style="dark" />
 
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Sectors">
+        <Stack.Navigator
+          initialRouteName="Sectors"
+          screenOptions={{ headerShown: false }}   // 👈 some o header branco
+        >
           <Stack.Screen
             name="Sectors"
             component={SectorsPage}
-            options={{ title: "Gerenciar Setores" }}
           />
 
           <Stack.Screen
             name="Assets"
             component={AssetsPage}
-            options={{ title: "Gerenciar Patrimônios" }}
           />
         </Stack.Navigator>
       </NavigationContainer>

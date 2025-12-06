@@ -1,23 +1,15 @@
+// src/pages/Assets/Assets.styles.ts
 export const assetsStyles = {
-  page: "min-h-screen flex flex-col bg-slate-50",
+  // container da página dentro do Layout
+  page: "w-full",
 
-  header:
-    "bg-violet-700 text-white px-4 md:px-8 py-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between shadow",
-
-  title: "text-lg md:text-xl font-semibold tracking-tight",
-
-  nav: "flex gap-2 md:gap-3 text-sm",
-
-  navLink:
-    "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-violet-300/60 bg-violet-600 hover:bg-violet-500 hover:border-violet-100 transition text-xs md:text-sm shadow-sm",
-
-  main:
-    "flex-1 w-full max-w-6xl mx-auto px-4 py-6 grid gap-4 md:grid-cols-2",
+  // 1 coluna no mobile, 2 colunas a partir de lg (1024px)
+  main: "grid gap-4 w-full lg:grid-cols-2",
 
   card:
-    "bg-white rounded-xl shadow-sm border border-slate-200 p-4 md:p-5",
+    "bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-5",
 
-  cardTitle: "text-base md:text-lg font-semibold mb-4 text-slate-800",
+  cardTitle: "text-base sm:text-lg font-semibold mb-4 text-slate-800",
 
   form: "space-y-4",
 
@@ -43,13 +35,17 @@ export const assetsStyles = {
 
   messageError: "text-sm text-red-700 mt-2",
 
-  table: "w-full border-collapse text-sm mt-2",
+  // 👉 Wrapper da tabela para rolar horizontalmente no mobile
+  tableWrapper: "w-full overflow-x-auto mt-2",
+
+  // tabela ocupa a largura mínima e rola se precisar
+  table: "min-w-full border-collapse text-sm",
 
   thead: "bg-slate-900 text-white",
 
-  th: "px-3 py-2 border border-slate-700 text-left text-xs font-semibold uppercase tracking-wide",
+  th: "px-3 py-2 border border-slate-700 text-left text-xs font-semibold uppercase tracking-wide whitespace-nowrap",
 
-  td: "px-3 py-2 border border-slate-200 bg-white",
+  td: "px-3 py-2 border border-slate-200 bg-white whitespace-nowrap",
 
   actionsCell: "flex flex-wrap gap-2",
 
@@ -57,8 +53,5 @@ export const assetsStyles = {
     "inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium text-white bg-sky-500 hover:bg-sky-600 transition shadow-sm",
 
   actionDelete:
-    "inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium text-white bg-red-500 hover:bg-red-600 transition shadow-sm",
-
-  footer:
-    "mt-auto w-full border-t border-slate-200 bg-slate-100 py-3 text-center text-xs text-slate-500"
+    "inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium text-white bg-red-500 hover:bg-red-600 transition shadow-sm"
 };
