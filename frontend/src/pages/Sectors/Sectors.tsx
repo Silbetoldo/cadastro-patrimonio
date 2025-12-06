@@ -2,6 +2,14 @@ import React from "react";
 import { useSectorsLogic } from "./Sectors.logic";
 import { sectorsStyles as s } from "./Sectors.styles";
 import { useNavigation } from "@react-navigation/native";
+import {
+  FaBoxOpen,
+  FaHome,
+  FaSave,
+  FaBroom,
+  FaEdit,
+  FaTrash
+} from "react-icons/fa";
 
 const SectorsPage: React.FC = () => {
   const navigation = useNavigation<any>();
@@ -31,7 +39,8 @@ const SectorsPage: React.FC = () => {
             className={s.navLink}
             onClick={() => navigation.navigate("Assets")}
           >
-            Tela de Patrimônio
+            <FaBoxOpen className="text-xs" />
+            <span>Tela de Patrimônio</span>
           </button>
 
           <button
@@ -39,7 +48,8 @@ const SectorsPage: React.FC = () => {
             className={s.navLink}
             onClick={() => navigation.navigate("Sectors")}
           >
-            Início
+            <FaHome className="text-xs" />
+            <span>Início</span>
           </button>
         </nav>
       </header>
@@ -68,14 +78,16 @@ const SectorsPage: React.FC = () => {
 
             <div className={s.buttonsRow}>
               <button type="submit" className={s.primaryButton}>
-                {editingId ? "Atualizar" : "Salvar"}
+                <FaSave className="text-xs" />
+                <span>{editingId ? "Atualizar" : "Salvar"}</span>
               </button>
               <button
                 type="button"
                 onClick={handleClear}
                 className={s.secondaryButton}
               >
-                Limpar
+                <FaBroom className="text-xs" />
+                <span>Limpar</span>
               </button>
             </div>
 
@@ -124,14 +136,16 @@ const SectorsPage: React.FC = () => {
                           onClick={() => handleEditClick(sector)}
                           className={s.actionEdit}
                         >
-                          Editar
+                          <FaEdit className="text-xs" />
+                          <span>Editar</span>
                         </button>
                         <button
                           type="button"
                           onClick={() => handleDeleteClick(sector.id)}
                           className={s.actionDelete}
                         >
-                          Excluir
+                          <FaTrash className="text-xs" />
+                          <span>Excluir</span>
                         </button>
                       </div>
                     </td>

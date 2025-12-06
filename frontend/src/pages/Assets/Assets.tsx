@@ -1,8 +1,19 @@
 import React from "react";
 import { useAssetsLogic } from "./Assets.logic";
 import { assetsStyles as s } from "./Assets.styles";
+import { useNavigation } from "@react-navigation/native";
+import {
+  FaBoxOpen,
+  FaHome,
+  FaSave,
+  FaBroom,
+  FaEdit,
+  FaTrash
+} from "react-icons/fa";
 
 const AssetsPage: React.FC = () => {
+  const navigation = useNavigation<any>();
+
   const {
     assets,
     sectors,
@@ -28,12 +39,23 @@ const AssetsPage: React.FC = () => {
         <h1 className={s.title}>Cadastro de Patrimônio</h1>
 
         <nav className={s.nav}>
-          <a href="/sectors" className={s.navLink}>
-            Tela de Setores
-          </a>
-          <a href="/" className={s.navLink}>
-            Início
-          </a>
+          <button
+            type="button"
+            className={s.navLink}
+            onClick={() => navigation.navigate("Sectors")}
+          >
+            <FaBoxOpen className="text-xs" />
+            <span>Tela de Setores</span>
+          </button>
+
+          <button
+            type="button"
+            className={s.navLink}
+            onClick={() => navigation.navigate("Assets")}
+          >
+            <FaHome className="text-xs" />
+            <span>Início</span>
+          </button>
         </nav>
       </header>
 
@@ -94,14 +116,17 @@ const AssetsPage: React.FC = () => {
 
             <div className={s.buttonsRow}>
               <button type="submit" className={s.primaryButton}>
-                {editingId ? "Atualizar" : "Salvar"}
+                <FaSave className="text-xs" />
+                <span>{editingId ? "Atualizar" : "Salvar"}</span>
               </button>
+
               <button
                 type="button"
                 onClick={handleClear}
                 className={s.secondaryButton}
               >
-                Limpar
+                <FaBroom className="text-xs" />
+                <span>Limpar</span>
               </button>
             </div>
 
@@ -127,6 +152,7 @@ const AssetsPage: React.FC = () => {
                 <th className={s.th}>Ações</th>
               </tr>
             </thead>
+
             <tbody>
               {isLoading ? (
                 <tr>
@@ -147,6 +173,7 @@ const AssetsPage: React.FC = () => {
                     <td className={s.td}>{asset.name}</td>
                     <td className={s.td}>{asset.assetNumber}</td>
                     <td className={s.td}>{asset.sectorName || "-"}</td>
+
                     <td className={s.td}>
                       <div className={s.actionsCell}>
                         <button
@@ -154,14 +181,17 @@ const AssetsPage: React.FC = () => {
                           onClick={() => handleEditClick(asset)}
                           className={s.actionEdit}
                         >
-                          Editar
+                          <FaEdit className="text-xs" />
+                          <span>Editar</span>
                         </button>
+
                         <button
                           type="button"
                           onClick={() => handleDeleteClick(asset.id)}
                           className={s.actionDelete}
                         >
-                          Excluir
+                          <FaTrash className="text-xs" />
+                          <span>Excluir</span>
                         </button>
                       </div>
                     </td>
