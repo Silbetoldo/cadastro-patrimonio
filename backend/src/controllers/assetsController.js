@@ -101,7 +101,7 @@ async function createAsset(req, res) {
     if (error.code === "P2002") {
       return res
         .status(400)
-        .json({ error: "Asset number must be unique." });
+        .json({ error: "O número de identificação do ativo deve ser único." });
     }
 
     res.status(500).json({ error: "Error creating asset." });
@@ -163,7 +163,7 @@ async function updateAsset(req, res) {
     if (error.code === "P2002") {
       return res
         .status(400)
-        .json({ error: "Asset number must be unique." });
+        .json({ error: "O número de identificação do ativo deve ser único." });
     }
 
     res.status(500).json({ error: "Error updating asset." });

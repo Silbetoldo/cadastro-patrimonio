@@ -3,12 +3,7 @@ import React from "react";
 import { useAssetsLogic } from "./Assets.logic";
 import { assetsStyles as s } from "./Assets.styles";
 import Layout from "../../components/Layout";
-import {
-  FaSave,
-  FaBroom,
-  FaEdit,
-  FaTrash
-} from "react-icons/fa";
+import { FaSave, FaBroom, FaEdit, FaTrash } from "react-icons/fa";
 
 const AssetsPage: React.FC = () => {
   const {
@@ -35,9 +30,9 @@ const AssetsPage: React.FC = () => {
       <div className={s.page}>
         <main className={s.main}>
           {/* Formulário */}
-          <section className={s.card}>
+          <section className={s.formCard}>
             <h2 className={s.cardTitle}>
-              {editingId ? "Editar Patrimônio" : "Novo Patrimônio"}
+              {editingId ? "Editar Patrimônio" : "Cadastrar Patrimônio"}
             </h2>
 
             <form onSubmit={handleSubmit} className={s.form}>
@@ -113,7 +108,7 @@ const AssetsPage: React.FC = () => {
           </section>
 
           {/* Tabela */}
-          <section className={s.card}>
+          <section className={s.tableCard}>
             <h2 className={s.cardTitle}>Patrimônios Cadastrados</h2>
 
             <div className={s.tableWrapper}>
@@ -148,7 +143,6 @@ const AssetsPage: React.FC = () => {
                         <td className={s.td}>{asset.name}</td>
                         <td className={s.td}>{asset.assetNumber}</td>
                         <td className={s.td}>{asset.sectorName || "-"}</td>
-
                         <td className={s.td}>
                           <div className={s.actionsCell}>
                             <button

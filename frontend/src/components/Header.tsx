@@ -1,58 +1,83 @@
+// src/components/Header.tsx
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import { FaBoxOpen, FaHome, FaSignOutAlt } from "react-icons/fa";
+import { FaBoxOpen, FaHome, FaSignOutAlt, FaArchive } from "react-icons/fa";
 
 const Header: React.FC = () => {
   const navigation = useNavigation<any>();
 
   const handleLogout = () => {
-    // limpa token e dados do usuário
     localStorage.removeItem("authToken");
     localStorage.removeItem("authUser");
 
-    // redireciona para login e bloqueia voltar
     navigation.reset({
       index: 0,
-      routes: [{ name: "Login" }]
+      routes: [{ name: "Login" }],
     });
   };
 
   return (
-    <header className="w-full bg-black text-white">
-      <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
-        {/* Título do sistema */}
-        <div>
-          <h1 className="text-lg font-semibold">SENAI - Sistema de Patrimônio</h1>
+    <header className="w-full bg-black text-white shadow-md">
+      <div
+        className="
+          max-w-6xl mx-auto 
+          px-3 sm:px-4 
+          py-2 sm:py-3
+          flex flex-col sm:flex-row
+          gap-2
+          sm:items-center sm:justify-between
+        "
+      >
+        {/* Ícone + título */}
+        <div className="flex items-center gap-2">
+          <FaArchive className="text-2xl text-violet-400" />
+          <h1 className="text-base sm:text-lg md:text-xl font-semibold leading-tight">
+            Sistema de Patrimônio
+          </h1>
         </div>
 
         {/* Menu */}
-        <nav className="flex items-center gap-3 text-xs">
+        <nav
+          className="
+            flex items-center 
+            justify-center sm:justify-end 
+            gap-4 
+            text-xs sm:text-sm
+          "
+        >
           <button
             type="button"
             onClick={() => navigation.navigate("Sectors")}
-            className="flex items-center gap-1 px-3 py-1 rounded-md border border-transparent hover:border-white transition"
+            className="flex items-center gap-1 px-2 sm:px-3 py-1 rounded-md hover:bg-white/10 transition"
           >
-            <FaHome className="text-[10px]" />
+            <FaHome className="text-[12px]" />
             <span>Setores</span>
           </button>
 
           <button
             type="button"
             onClick={() => navigation.navigate("Assets")}
-            className="flex items-center gap-1 px-3 py-1 rounded-md border border-transparent hover:border-white transition"
+            className="flex items-center gap-1 px-2 sm:px-3 py-1 rounded-md hover:bg-white/10 transition"
           >
-            <FaBoxOpen className="text-[10px]" />
+            <FaBoxOpen className="text-[12px]" />
             <span>Patrimônio</span>
           </button>
 
-          {/* BOTÃO SAIR */}
+          {/* Sair – só ícone no mobile, ícone + texto a partir de sm */}
           <button
             type="button"
             onClick={handleLogout}
-            className="flex items-center gap-1 px-3 py-1 rounded-md border border-transparent hover:border-red-400 text-red-400 transition"
+            className="
+              flex items-center gap-1
+              px-2 sm:px-3 py-1
+              rounded-md
+              text-red-400
+              hover:bg-red-500/20
+              transition
+            "
           >
-            <FaSignOutAlt className="text-[10px]" />
-            <span>Sair</span>
+            <FaSignOutAlt className="text-[12px]" />
+            <span className="hidden sm:inline">Sair</span>
           </button>
         </nav>
       </div>

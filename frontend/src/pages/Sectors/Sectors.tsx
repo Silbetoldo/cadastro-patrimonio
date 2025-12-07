@@ -32,7 +32,7 @@ const SectorsPage: React.FC = () => {
           {/* Formulário */}
           <section className={s.card}>
             <h2 className={s.cardTitle}>
-              {editingId ? "Editar Setor" : "Novo Setor"}
+              {editingId ? "Editar Setor" : "Cadastrar Setor"}
             </h2>
 
             <form onSubmit={handleSubmit} className={s.form}>
