@@ -59,12 +59,12 @@ async function login(req, res) {
     });
 
     if (!user) {
-      return res.status(401).json({ error: "Invalid credentials." });
+      return res.status(401).json({ error: "Credenciais inválidas." });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.passwordHash);
     if (!passwordMatch) {
-      return res.status(401).json({ error: "Invalid credentials." });
+      return res.status(401).json({ error: "Credenciais inválidas." });
     }
 
     const token = generateToken(user);
