@@ -16,26 +16,7 @@ export function useSectorsLogic() {
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // navegação para a tela de Patrimônios
   const navigation = useNavigation<any>();
-
-  const loadSectors = async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetch(`${API_BASE_URL}/sectors`);
-      const data = await response.json();
-      setSectors(Array.isArray(data) ? data : []);
-    } catch (error) {
-      console.error(error);
-      showMessage("Erro ao carregar setores.", true);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadSectors();
-  }, []);
 
   const showMessage = (text: string, error = false) => {
     setMessage(text);
@@ -47,6 +28,57 @@ export function useSectorsLogic() {
     setIsError(false);
   };
 
+  // pega o token; se não tiver, volta pro login
+  const getTokenOrRedirect = (): string | null => {
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      showMessage("Sessão expirada. Faça login novamente.", true);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Login" }]
+      });
+      return null;
+    }
+
+    return token;
+  };
+
+  const loadSectors = async () => {
+    const token = getTokenOrRedirect();
+    if (!token) return;
+
+    try {
+      setIsLoading(true);
+
+      const response = await fetch(`${API_BASE_URL}/sectors`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        showMessage(data.error || "Erro ao carregar setores.", true);
+        setSectors([]);
+        return;
+      }
+
+      setSectors(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error(error);
+      showMessage("Erro ao carregar setores.", true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadSectors();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     clearMessage();
@@ -57,6 +89,9 @@ export function useSectorsLogic() {
       return;
     }
 
+    const token = getTokenOrRedirect();
+    if (!token) return;
+
     try {
       const method = editingId ? "PUT" : "POST";
       const url = editingId
@@ -65,7 +100,10 @@ export function useSectorsLogic() {
 
       const response = await fetch(url, {
         method,
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
         body: JSON.stringify({ name: trimmedName })
       });
 
@@ -106,9 +144,15 @@ export function useSectorsLogic() {
 
     clearMessage();
 
+    const token = getTokenOrRedirect();
+    if (!token) return;
+
     try {
       const response = await fetch(`${API_BASE_URL}/sectors/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
 
       const data = await response.json();
@@ -132,7 +176,6 @@ export function useSectorsLogic() {
     clearMessage();
   };
 
-  // 👉 nova função para navegar para Patrimônios
   const handleGoToAssets = () => {
     navigation.navigate("Assets");
   };
@@ -149,6 +192,6 @@ export function useSectorsLogic() {
     handleEditClick,
     handleDeleteClick,
     handleClear,
-    handleGoToAssets // <- exporta para a tela usar
+    handleGoToAssets
   };
 }
