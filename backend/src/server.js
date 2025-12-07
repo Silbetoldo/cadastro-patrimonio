@@ -334,40 +334,36 @@ app.put("/sectors/:id", async (req, res) => {
   }
 });
 
-// Deletar setor (apenas ADMIN)
-app.delete(
-  "/sectors/:id",
-  authorizeRoles(UserRole.ADMIN),
-  async (req, res) => {
-    const id = parseAndValidateId(req.params.id, res);
-    if (id === null) return;
+// Deletar setor (qualquer usuário autenticado)
+app.delete("/sectors/:id", async (req, res) => {
+  const id = parseAndValidateId(req.params.id, res);
+  if (id === null) return;
 
-    try {
-      const sector = await prisma.sector.findUnique({
-        where: { id },
-        include: { assets: true }
-      });
+  try {
+    const sector = await prisma.sector.findUnique({
+      where: { id },
+      include: { assets: true }
+    });
 
-      if (!sector) {
-        return res.status(404).json({ error: "Sector not found." });
-      }
-
-      if (sector.assets.length > 0) {
-        return res.status(400).json({
-          error:
-            "Sector cannot be deleted because there are assets linked to it."
-        });
-      }
-
-      await prisma.sector.delete({ where: { id } });
-
-      res.json({ message: "Sector deleted successfully." });
-    } catch (error) {
-      console.error("Error deleting sector:", error);
-      res.status(500).json({ error: "Error deleting sector." });
+    if (!sector) {
+      return res.status(404).json({ error: "Sector not found." });
     }
+
+    if (sector.assets.length > 0) {
+      return res.status(400).json({
+        error:
+          "Sector cannot be deleted because there are assets linked to it."
+      });
+    }
+
+    await prisma.sector.delete({ where: { id } });
+
+    res.json({ message: "Sector deleted successfully." });
+  } catch (error) {
+    console.error("Error deleting sector:", error);
+    res.status(500).json({ error: "Error deleting sector." });
   }
-);
+});
 
 /**
  * ====================================================
@@ -547,29 +543,26 @@ app.put("/assets/:id", async (req, res) => {
   }
 });
 
-// Deletar patrimônio (apenas ADMIN)
-app.delete(
-  "/assets/:id",
-  authorizeRoles(UserRole.ADMIN),
-  async (req, res) => {
-    const id = parseAndValidateId(req.params.id, res);
-    if (id === null) return;
+// Deletar patrimônio (qualquer usuário autenticado)
+app.delete("/assets/:id", async (req, res) => {
+  const id = parseAndValidateId(req.params.id, res);
+  if (id === null) return;
 
-    try {
-      const asset = await prisma.asset.findUnique({ where: { id } });
-      if (!asset) {
-        return res.status(404).json({ error: "Asset not found." });
-      }
-
-      await prisma.asset.delete({ where: { id } });
-
-      res.json({ message: "Asset deleted successfully." });
-    } catch (error) {
-      console.error("Error deleting asset:", error);
-      res.status(500).json({ error: "Error deleting asset." });
+  try {
+    const asset = await prisma.asset.findUnique({ where: { id } });
+    if (!asset) {
+      return res.status(404).json({ error: "Asset not found." });
     }
+
+    await prisma.asset.delete({ where: { id } });
+
+    res.json({ message: "Asset deleted successfully." });
+  } catch (error) {
+    console.error("Error deleting asset:", error);
+    res.status(500).json({ error: "Error deleting asset." });
   }
-);
+});
+
 
 // ======================================================
 // INICIAR SERVIDOR
