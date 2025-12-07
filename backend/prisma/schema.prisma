@@ -27,14 +27,8 @@ model User {
   id           Int      @id @default(autoincrement())
   name         String
   email        String   @unique         // email único
-  passwordHash String                   // senha criptografada (bcrypt)
-  role         UserRole @default(USER)  // perfil: ADMIN ou USER
+  passwordHash String                   // senha criptografada (bcrypt) 
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
 
-// Enum de papéis (roles)
-enum UserRole {
-  ADMIN
-  USER
-}

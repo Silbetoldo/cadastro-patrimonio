@@ -10,7 +10,7 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { PrismaClient, UserRole } = require("@prisma/client"); 
+const { PrismaClient } = require("@prisma/client"); // 👈 removeu UserRole
 require("dotenv").config();
 
 const app = express();
@@ -80,8 +80,8 @@ function generateToken(user) {
   return jwt.sign(
     {
       id: user.id,
-      email: user.email,
-      role: user.role
+      email: user.email
+      // não usamos mais "role"
     },
     JWT_SECRET,
     { expiresIn: "30m" } // token expira em 30 minutos
@@ -109,20 +109,6 @@ function authenticateToken(req, res, next) {
   });
 }
 
-// Middleware: autoriza apenas certos perfis (roles)
-function authorizeRoles(...allowedRoles) {
-  return (req, res, next) => {
-    const userRole = req.user?.role;
-
-    // userRole vem do payload do JWT (UserRole.ADMIN / UserRole.USER)
-    if (!userRole || !allowedRoles.includes(userRole)) {
-      return res.status(403).json({ error: "Forbidden: insufficient role." });
-    }
-
-    next();
-  };
-}
-
 // Função para validar ID inteiro positivo
 function parseAndValidateId(paramId, res) {
   const id = Number(paramId);
@@ -147,8 +133,7 @@ app.get("/", (req, res) => {
  */
 
 // Cadastro de usuário (REGISTER)
-// Para a aula/teste, vamos permitir que seja chamado pelo front.
-// Por segurança, sempre cria com role USER.
+// Vários usuários podem se cadastrar, todos com o mesmo nível de acesso.
 app.post("/auth/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -167,8 +152,7 @@ app.post("/auth/register", async (req, res) => {
       data: {
         name: name.trim(),
         email: email.toLowerCase().trim(),
-        passwordHash,
-        role: UserRole.USER // sempre USER por padrão
+        passwordHash
       }
     });
 
@@ -176,8 +160,7 @@ app.post("/auth/register", async (req, res) => {
     res.status(201).json({
       id: newUser.id,
       name: newUser.name,
-      email: newUser.email,
-      role: newUser.role
+      email: newUser.email
     });
   } catch (error) {
     console.error("Error registering user:", error);
@@ -187,13 +170,12 @@ app.post("/auth/register", async (req, res) => {
       return res.status(400).json({ error: "Email already registered." });
     }
 
-    // 🔍 TEMPORÁRIO: expor detalhes para debug
-  return res.status(500).json({
-    error: "Error registering user.",
-    code: error.code,
-    message: error.message,
-    meta: error.meta
-  });
+    return res.status(500).json({
+      error: "Error registering user.",
+      code: error.code,
+      message: error.message,
+      meta: error.meta
+    });
   }
 });
 
@@ -229,8 +211,7 @@ app.post("/auth/login", async (req, res) => {
       user: {
         id: user.id,
         name: user.name,
-        email: user.email,
-        role: user.role
+        email: user.email
       }
     });
   } catch (error) {
@@ -285,7 +266,7 @@ app.get("/sectors/:id", async (req, res) => {
   }
 });
 
-// Criar setor (USER ou ADMIN)
+// Criar setor
 app.post("/sectors", async (req, res) => {
   try {
     const { name } = req.body;
@@ -305,7 +286,7 @@ app.post("/sectors", async (req, res) => {
   }
 });
 
-// Atualizar setor (USER ou ADMIN)
+// Atualizar setor
 app.put("/sectors/:id", async (req, res) => {
   const id = parseAndValidateId(req.params.id, res);
   if (id === null) return;
@@ -426,7 +407,7 @@ app.get("/assets/:id", async (req, res) => {
   }
 });
 
-// Criar patrimônio (USER ou ADMIN)
+// Criar patrimônio
 app.post("/assets", async (req, res) => {
   try {
     let { name, assetNumber, sectorId } = req.body;
@@ -480,7 +461,7 @@ app.post("/assets", async (req, res) => {
   }
 });
 
-// Atualizar patrimônio (USER ou ADMIN)
+// Atualizar patrimônio
 app.put("/assets/:id", async (req, res) => {
   const id = parseAndValidateId(req.params.id, res);
   if (id === null) return;
@@ -562,7 +543,6 @@ app.delete("/assets/:id", async (req, res) => {
     res.status(500).json({ error: "Error deleting asset." });
   }
 });
-
 
 // ======================================================
 // INICIAR SERVIDOR
