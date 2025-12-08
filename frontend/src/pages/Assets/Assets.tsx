@@ -1,41 +1,53 @@
-
 import React from "react";
+// Hook que concentra toda a lógica da página (carregar, criar, editar e excluir patrimônio)
 import { useAssetsLogic } from "./Assets.logic";
+// Importa os estilos já organizados no objeto "assetsStyles"
 import { assetsStyles as s } from "./Assets.styles";
+// Layout padrão (Header + Conteúdo + Footer)
 import Layout from "../../components/Layout";
+// Ícones usados nos botões
 import { FaSave, FaBroom, FaEdit, FaTrash } from "react-icons/fa";
 
 const AssetsPage: React.FC = () => {
+  // Desestrutura todos os estados e funções vindos da lógica
   const {
-    assets,
-    sectors,
-    name,
+    assets,           // lista de patrimônios
+    sectors,          // lista de setores para o select
+    name,             // nome do patrimônio
     setName,
-    assetNumber,
+    assetNumber,      // número do patrimônio
     setAssetNumber,
-    sectorId,
+    sectorId,         // setor selecionado
     setSectorId,
-    editingId,
-    message,
-    isError,
-    isLoading,
-    handleSubmit,
-    handleEditClick,
-    handleDeleteClick,
-    handleClear
+    editingId,        // id do item que está sendo editado
+    message,          // mensagem de sucesso/erro
+    isError,          // indica se a mensagem é erro
+    isLoading,        // controla "Carregando..."
+    handleSubmit,     // submit do formulário
+    handleEditClick,  // editar item da tabela
+    handleDeleteClick,// excluir item
+    handleClear       // limpar formulário
   } = useAssetsLogic();
 
   return (
     <Layout>
+      {/* container da página */}
       <div className={s.page}>
+        {/* área principal com layout responsivo */}
         <main className={s.main}>
-          {/* Formulário */}
+
+          {/* ======================== */}
+          {/*    FORMULÁRIO DE CADASTRO */}
+          {/* ======================== */}
           <section className={s.formCard}>
+            {/* Título muda se está editando ou criando */}
             <h2 className={s.cardTitle}>
               {editingId ? "Editar Patrimônio" : "Cadastrar Patrimônio"}
             </h2>
 
             <form onSubmit={handleSubmit} className={s.form}>
+
+              {/* Campo: nome do patrimônio */}
               <div className={s.formGroup}>
                 <label htmlFor="assetName" className={s.label}>
                   Nome do Patrimônio
@@ -50,6 +62,7 @@ const AssetsPage: React.FC = () => {
                 />
               </div>
 
+              {/* Campo: número de patrimônio */}
               <div className={s.formGroup}>
                 <label htmlFor="assetNumber" className={s.label}>
                   Número de Patrimônio
@@ -64,6 +77,7 @@ const AssetsPage: React.FC = () => {
                 />
               </div>
 
+              {/* Select: setor do patrimônio */}
               <div className={s.formGroup}>
                 <label htmlFor="assetSector" className={s.label}>
                   Setor
@@ -83,6 +97,7 @@ const AssetsPage: React.FC = () => {
                 </select>
               </div>
 
+              {/* Botões do formulário */}
               <div className={s.buttonsRow}>
                 <button type="submit" className={s.primaryButton}>
                   <FaSave className="text-xs" />
@@ -99,6 +114,7 @@ const AssetsPage: React.FC = () => {
                 </button>
               </div>
 
+              {/* Mensagens de erro ou sucesso */}
               {message && (
                 <p className={isError ? s.messageError : s.messageSuccess}>
                   {message}
@@ -107,7 +123,9 @@ const AssetsPage: React.FC = () => {
             </form>
           </section>
 
-          {/* Tabela */}
+          {/* ======================== */}
+          {/*        TABELA */}
+          {/* ======================== */}
           <section className={s.tableCard}>
             <h2 className={s.cardTitle}>Patrimônios Cadastrados</h2>
 
@@ -124,18 +142,23 @@ const AssetsPage: React.FC = () => {
                 </thead>
 
                 <tbody>
+                  {/* Mostra "Carregando..." enquanto busca dados */}
                   {isLoading ? (
                     <tr>
                       <td className={s.td} colSpan={5}>
                         Carregando...
                       </td>
                     </tr>
+
+                  // Mostra mensagem se não existir patrimônio cadastrado
                   ) : assets.length === 0 ? (
                     <tr>
                       <td className={s.td} colSpan={5}>
                         Nenhum patrimônio cadastrado.
                       </td>
                     </tr>
+
+                  // Renderiza lista de patrimônios
                   ) : (
                     assets.map((asset) => (
                       <tr key={asset.id}>
@@ -143,7 +166,9 @@ const AssetsPage: React.FC = () => {
                         <td className={s.td}>{asset.name}</td>
                         <td className={s.td}>{asset.assetNumber}</td>
                         <td className={s.td}>{asset.sectorName || "-"}</td>
+
                         <td className={s.td}>
+                          {/* Botões de ação (Editar / Excluir) */}
                           <div className={s.actionsCell}>
                             <button
                               type="button"
