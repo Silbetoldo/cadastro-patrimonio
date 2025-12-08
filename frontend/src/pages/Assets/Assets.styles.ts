@@ -1,4 +1,3 @@
-// src/pages/Assets/Assets.styles.ts
 export const assetsStyles = {
   // container da página dentro do Layout
   page: "w-full",

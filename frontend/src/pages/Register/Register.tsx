@@ -1,4 +1,4 @@
-// src/pages/Register/Register.tsx
+
 import React from "react";
 import Layout from "../../components/Layout";
 import { useRegisterLogic } from "./Register.logic";
@@ -26,7 +26,7 @@ const RegisterPage: React.FC = () => {
   const navigation = useNavigation<any>();
 
   const goToLogin = () => {
-    navigation.navigate("Login"); // 👈 volta para Login pela navegação
+    navigation.navigate("Login"); //volta para Login pela navegação
   };
 
   return (

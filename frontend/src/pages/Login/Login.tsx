@@ -15,7 +15,7 @@ const LoginPage: React.FC = () => {
     message,
     isError,
     isLoading,
-    loginSuccess,   // 👈 veio do hook
+    loginSuccess,  
     handleSubmit,
     handleClear
   } = useLoginLogic();

@@ -1,4 +1,3 @@
-// src/pages/Register/Register.logic.ts
 import { useState } from "react";
 
 const API_BASE_URL = "http://localhost:3001";

@@ -1,4 +1,4 @@
-// src/pages/Assets/Assets.tsx
+
 import React from "react";
 import { useAssetsLogic } from "./Assets.logic";
 import { assetsStyles as s } from "./Assets.styles";

@@ -1,4 +1,4 @@
-// src/pages/Login/Login.logic.ts
+
 import { useState } from "react";
 
 const API_BASE_URL = "http://localhost:3001";
@@ -9,7 +9,7 @@ export function useLoginLogic() {
   const [message, setMessage] = useState<string | null>(null);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [loginSuccess, setLoginSuccess] = useState(false); // 👈 controla sucesso
+  const [loginSuccess, setLoginSuccess] = useState(false); // controla sucesso
 
   const showMessage = (text: string, error = false) => {
     setMessage(text);
@@ -60,7 +60,7 @@ export function useLoginLogic() {
       }
 
       showMessage("Login realizado com sucesso!", false);
-      setLoginSuccess(true); // 👈 avisa a tela que deu certo
+      setLoginSuccess(true); //avisa a tela que deu certo
     } catch (error) {
       console.error(error);
       showMessage("Erro ao conectar ao servidor.", true);

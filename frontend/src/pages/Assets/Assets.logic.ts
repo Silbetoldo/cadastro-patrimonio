@@ -118,7 +118,7 @@ export function useAssetsLogic() {
   useEffect(() => {
     loadSectors();
     loadAssets();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

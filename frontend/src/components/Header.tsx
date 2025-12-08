@@ -1,4 +1,4 @@
-// src/components/Header.tsx
+
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { FaBoxOpen, FaHome, FaSignOutAlt, FaArchive } from "react-icons/fa";

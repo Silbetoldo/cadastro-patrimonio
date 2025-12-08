@@ -1,4 +1,4 @@
-// src/pages/Sectors/Sectors.tsx
+
 import React from "react";
 import { useSectorsLogic } from "./Sectors.logic";
 import { sectorsStyles as s } from "./Sectors.styles";
